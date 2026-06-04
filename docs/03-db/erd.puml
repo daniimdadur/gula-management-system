@@ -1,0 +1,91 @@
+@startuml
+
+entity Product {
+    *id : UUID
+    --
+    code : VARCHAR
+    name : VARCHAR
+    category : VARCHAR
+    description : TEXT
+    price : DECIMAL
+    weight : DECIMAL
+    image_url : VARCHAR
+    status : BOOLEAN
+}
+
+entity Inventory {
+    *id : UUID
+    --
+    product_id : UUID
+    current_stock : INT
+    minimum_stock : INT
+}
+
+entity StockMovement {
+    *id : UUID
+    --
+    inventory_id : UUID
+    movement_type : VARCHAR
+    quantity : INT
+    reference_no : VARCHAR
+    created_at : TIMESTAMP
+}
+
+entity Production {
+    *id : UUID
+    --
+    product_id : UUID
+    quantity : INT
+    production_date : DATE
+    notes : TEXT
+}
+
+entity Customer {
+    *id : UUID
+    --
+    name : VARCHAR
+    phone_number : VARCHAR
+    address : TEXT
+}
+
+entity Orders {
+    *id : UUID
+    --
+    customer_id : UUID
+    order_date : TIMESTAMP
+    total_amount : DECIMAL
+    status : VARCHAR
+}
+
+entity OrderItem {
+    *id : UUID
+    --
+    order_id : UUID
+    product_id : UUID
+    quantity : INT
+    price : DECIMAL
+}
+
+entity Payment {
+    *id : UUID
+    --
+    order_id : UUID
+    payment_date : TIMESTAMP
+    amount : DECIMAL
+    status : VARCHAR
+}
+
+Product ||--|| Inventory
+Inventory ||--o{ StockMovement
+
+Product ||--o{ Production
+
+Customer ||--o{ Orders
+
+Orders ||--o{ OrderItem
+
+Product ||--o{ OrderItem
+
+Orders ||--|| Payment
+
+@enduml

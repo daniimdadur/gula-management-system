@@ -1,0 +1,83 @@
+gula-management-system
+│
+├── infrastructure
+│   │
+│   ├── docker-compose.yml
+│   │
+│   ├── kafka
+│   │
+│   ├── mysql
+│   │
+│   └── redis
+│
+├── backend
+│   │
+│   ├── gateway-service
+│   │
+│   ├── product-service
+│   │
+│   ├── inventory-service
+│   │
+│   ├── order-service
+│   │
+│   ├── payment-service
+│   │
+│   └── notification-service
+│
+├── frontend
+│   │
+│   └── svelte-app
+│
+└── docs
+    │
+    ├── 01-prd
+    │   └── PRD.md
+    │
+    ├── 02-sad
+    │   ├── SAD.md
+    │   ├── architecture.puml
+    │   └── sequence
+    │       ├── order-flow.puml
+    │       ├── payment-flow.puml
+    │       └── production-flow.puml
+    │
+    ├── 03-database
+    │   ├── ERD.puml
+    │   └── database-dictionary.md
+    │
+    ├── 04-api
+    │   ├── product-api.md
+    │   ├── inventory-api.md
+    │   ├── order-api.md
+    │   ├── payment-api.md
+    │   └── customer-api.md
+    │
+    ├── 05-events
+    │   └── kafka-events.md
+    │
+    └── 06-deployment
+        ├── docker-architecture.puml
+        └── deployment.md
+
+inventory-service
+│
+├── controller
+│
+├── service
+│
+├── repository
+│
+├── entity
+│
+├── dto
+│
+├── kafka
+│   │
+│   ├── consumer
+│   │
+│   ├── producer
+│   │
+│   └── event
+│
+└── config
+

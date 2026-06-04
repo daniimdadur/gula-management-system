@@ -1,0 +1,13 @@
+@startuml
+
+entity payment {
+    * id : UUID
+    --
+    order_id : UUID
+    payment_method : enum
+    amount : decimal
+    status : enum
+    payment_date : datetime
+}
+
+@enduml

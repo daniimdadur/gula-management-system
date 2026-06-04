@@ -1,0 +1,61 @@
+@startuml
+
+actor Owner
+actor AdminGudang
+actor AdminPenjualan
+
+rectangle Frontend {
+    [Svelte Web App]
+}
+
+rectangle Backend {
+
+    [API Gateway]
+
+    [Product Service]
+    [Inventory Service]
+    [Production Service]
+    [Order Service]
+    [Payment Service]
+    [Notification Service]
+
+    queue Kafka
+
+    database ProductDB
+    database InventoryDB
+    database ProductionDB
+    database OrderDB
+    database PaymentDB
+
+    collections Redis
+}
+
+Owner --> [Svelte Web App]
+AdminGudang --> [Svelte Web App]
+AdminPenjualan --> [Svelte Web App]
+
+[Svelte Web App] --> [API Gateway]
+
+[API Gateway] --> [Product Service]
+[API Gateway] --> [Inventory Service]
+[API Gateway] --> [Production Service]
+[API Gateway] --> [Order Service]
+[API Gateway] --> [Payment Service]
+
+[Product Service] --> ProductDB
+[Inventory Service] --> InventoryDB
+[Production Service] --> ProductionDB
+[Order Service] --> OrderDB
+[Payment Service] --> PaymentDB
+
+[Product Service] --> Redis
+
+[Order Service] --> Kafka
+[Payment Service] --> Kafka
+[Production Service] --> Kafka
+[Inventory Service] --> Kafka
+
+Kafka --> [Inventory Service]
+Kafka --> [Notification Service]
+
+@enduml

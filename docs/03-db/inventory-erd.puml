@@ -1,0 +1,24 @@
+@startuml
+
+entity inventory {
+    * id : UUID
+    --
+    product_id : UUID
+    current_stock : int
+    minimum_stock : int
+}
+
+entity inventory_transaction {
+    * id : UUID
+    --
+    inventory_id : UUID
+    transaction_type : enum
+    quantity : int
+    reference_type : varchar
+    reference_id : UUID
+    notes : text
+}
+
+inventory ||--o{ inventory_transaction
+
+@enduml

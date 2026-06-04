@@ -1,0 +1,16 @@
+@startuml
+
+entity product {
+    * id : UUID
+    --
+    code : varchar
+    name : varchar
+    category : varchar
+    description : text
+    weight : decimal
+    price : decimal
+    image_url : varchar
+    status : boolean
+}
+
+@enduml

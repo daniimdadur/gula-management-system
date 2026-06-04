@@ -1,0 +1,25 @@
+@startuml
+
+entity orders {
+    * id : UUID
+    --
+    customer_id : UUID
+    order_date : datetime
+    total_amount : decimal
+    status : enum
+}
+
+entity order_item {
+    * id : UUID
+    --
+    order_id : UUID
+    product_id : UUID
+    product_name : varchar
+    price : decimal
+    quantity : int
+    subtotal : decimal
+}
+
+orders ||--o{ order_item
+
+@enduml

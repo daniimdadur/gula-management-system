@@ -1,0 +1,537 @@
+﻿PRODUCT REQUIREMENTS DOCUMENT (PRD)
+Sistem Manajemen Penjualan dan Inventori UMKM Gula Kelapa & Gula Aren
+________________
+
+
+1. Informasi Dokumen
+Item
+	Keterangan
+	Nama Produk
+	Gula Management System
+	Versi
+	1.0
+	Tipe Aplikasi
+	Web Application
+	Arsitektur
+	Microservices
+	Backend
+	Spring Boot
+	Frontend
+	Svelte
+	Database
+	MySQL
+	Message Broker
+	Kafka
+	Cache
+	Redis
+	API Gateway
+	Spring Cloud Gateway
+	Target Pengguna
+	Pemilik UMKM, Admin Gudang, Admin Penjualan
+	________________
+
+
+2. Latar Belakang
+UMKM yang bergerak dalam produksi dan penjualan gula kelapa serta gula aren sering mengalami permasalahan dalam pengelolaan stok, pencatatan produksi, dan monitoring penjualan.
+Proses yang masih dilakukan secara manual dapat menyebabkan:
+* Kesalahan perhitungan stok.
+* Sulit mengetahui jumlah barang yang tersedia.
+* Sulit memantau pesanan pelanggan.
+* Tidak adanya notifikasi ketika stok hampir habis.
+* Sulit membuat laporan penjualan dan produksi.
+Untuk mengatasi permasalahan tersebut, akan dibangun sebuah sistem berbasis web yang dapat mengelola seluruh proses bisnis mulai dari produksi hingga penjualan.
+________________
+
+
+3. Tujuan Produk
+Tujuan utama sistem adalah:
+1. Mempermudah pengelolaan stok barang.
+2. Mempermudah pencatatan hasil produksi.
+3. Mempermudah pengelolaan pesanan pelanggan.
+4. Menyediakan dashboard monitoring bisnis.
+5. Mengimplementasikan arsitektur Event-Driven menggunakan Kafka.
+6. Menjadi studi kasus nyata pembelajaran Microservices.
+________________
+
+
+4. Ruang Lingkup
+Sistem mencakup:
+Included
+* Manajemen Produk
+* Manajemen Inventori
+* Manajemen Produksi
+* Manajemen Pesanan
+* Manajemen Pembayaran
+* Manajemen Pelanggan
+* Dashboard Monitoring
+* Notifikasi Stok Menipis
+Excluded (Versi Selanjutnya)
+* Integrasi Payment Gateway
+* Integrasi Marketplace
+* Integrasi Ekspedisi
+* Mobile Application
+* Multi Warehouse
+________________
+
+
+5. User Roles
+5.1 Owner
+Hak akses:
+* Melihat dashboard
+* Mengelola produk
+* Mengelola inventori
+* Melihat laporan
+* Melihat seluruh transaksi
+________________
+
+
+5.2 Admin Gudang
+Hak akses:
+* Input stok masuk
+* Input stok keluar
+* Melihat stok barang
+* Melihat riwayat inventori
+________________
+
+
+5.3 Admin Penjualan
+Hak akses:
+* Membuat pesanan
+* Mengubah status pesanan
+* Mengelola data pelanggan
+________________
+
+
+6. Modul Sistem
+________________
+
+
+6.1 Product Management
+Deskripsi
+Modul untuk mengelola seluruh produk yang dijual.
+Data Produk
+Field
+	Tipe
+	id
+	UUID
+	code
+	String
+	name
+	String
+	category
+	String
+	description
+	Text
+	weight
+	Decimal
+	price
+	Decimal
+	imageUrl
+	String
+	status
+	Boolean
+	________________
+
+
+Fitur
+Create Product
+Admin dapat menambahkan produk baru.
+Update Product
+Admin dapat mengubah data produk.
+Delete Product
+Admin dapat menghapus produk.
+Product Listing
+Menampilkan seluruh produk.
+Product Detail
+Menampilkan detail produk.
+________________
+
+
+6.2 Inventory Management
+Deskripsi
+Mengelola jumlah stok barang yang tersedia.
+________________
+
+
+Data Inventory
+Field
+	Tipe
+	id
+	UUID
+	productId
+	UUID
+	currentStock
+	Integer
+	minimumStock
+	Integer
+	updatedAt
+	Timestamp
+	________________
+
+
+Fitur
+Stock In
+Menambahkan stok hasil produksi.
+Stock Out
+Mengurangi stok akibat penjualan atau kerusakan.
+Stock Adjustment
+Penyesuaian stok setelah audit.
+Stock Movement History
+Riwayat seluruh perubahan stok.
+________________
+
+
+Business Rules
+* Stok tidak boleh bernilai negatif.
+* Semua perubahan stok wajib tercatat.
+* Sistem harus mengirim notifikasi jika stok di bawah minimum stock.
+________________
+
+
+6.3 Production Management
+Deskripsi
+Mengelola proses produksi gula kelapa dan gula aren.
+________________
+
+
+Data Production
+Field
+	Tipe
+	id
+	UUID
+	productId
+	UUID
+	quantity
+	Integer
+	productionDate
+	Date
+	notes
+	Text
+	________________
+
+
+Fitur
+Create Production
+Mencatat hasil produksi.
+Production History
+Melihat histori produksi.
+________________
+
+
+Business Rules
+Setelah produksi selesai:
+* Stok produk otomatis bertambah.
+* Event Kafka dikirim.
+Event:
+ProductionCompletedEvent
+________________
+
+
+6.4 Order Management
+Deskripsi
+Mengelola transaksi penjualan.
+________________
+
+
+Data Order
+Field
+	Tipe
+	id
+	UUID
+	customerId
+	UUID
+	orderDate
+	Timestamp
+	totalAmount
+	Decimal
+	status
+	Enum
+	________________
+
+
+Order Status
+CREATED
+PAID
+PACKED
+SHIPPED
+COMPLETED
+CANCELLED
+________________
+
+
+Fitur
+Create Order
+Membuat pesanan baru.
+Update Status
+Mengubah status pesanan.
+View Orders
+Melihat seluruh pesanan.
+Order Detail
+Melihat detail pesanan.
+________________
+
+
+6.5 Customer Management
+Deskripsi
+Mengelola data pelanggan.
+________________
+
+
+Data Customer
+Field
+	Tipe
+	id
+	UUID
+	name
+	String
+	phoneNumber
+	String
+	address
+	Text
+	createdAt
+	Timestamp
+	________________
+
+
+Fitur
+Create Customer
+Menambah pelanggan baru.
+Update Customer
+Mengubah data pelanggan.
+Customer List
+Melihat seluruh pelanggan.
+________________
+
+
+6.6 Payment Management
+Deskripsi
+Mengelola status pembayaran pesanan.
+________________
+
+
+Payment Status
+PENDING
+SUCCESS
+FAILED
+________________
+
+
+Fitur
+Confirm Payment
+Mengubah status pembayaran.
+Payment History
+Melihat riwayat pembayaran.
+________________
+
+
+Business Rules
+Saat pembayaran berhasil:
+Event Kafka dikirim.
+PaymentSuccessEvent
+Inventory Service akan mengurangi stok sesuai jumlah pesanan.
+________________
+
+
+6.7 Notification Management
+Deskripsi
+Mengelola notifikasi sistem.
+________________
+
+
+Jenis Notifikasi
+Low Stock
+Contoh:
+Stok Gula Aren 250gr tersisa 10 pcs
+Order Created
+Pesanan baru berhasil dibuat.
+Payment Success
+Pembayaran berhasil diterima.
+________________
+
+
+6.8 Dashboard
+Deskripsi
+Menampilkan ringkasan kondisi bisnis.
+________________
+
+
+Widget Dashboard
+Sales Summary
+* Total Penjualan Hari Ini
+* Total Penjualan Bulan Ini
+Inventory Summary
+* Total Produk
+* Total Stok
+Low Stock Products
+Produk dengan stok menipis.
+Top Selling Products
+Produk terlaris.
+Recent Orders
+Pesanan terbaru.
+________________
+
+
+7. Kafka Event Architecture
+________________
+
+
+Event 1
+OrderCreatedEvent
+Producer:
+order-service
+Consumer:
+notification-service
+________________
+
+
+Event 2
+PaymentSuccessEvent
+Producer:
+payment-service
+Consumer:
+inventory-service
+notification-service
+________________
+
+
+Event 3
+ProductionCompletedEvent
+Producer:
+production-service
+Consumer:
+inventory-service
+________________
+
+
+Event 4
+InventoryUpdatedEvent
+Producer:
+inventory-service
+Consumer:
+dashboard-service
+________________
+
+
+Event 5
+LowStockEvent
+Producer:
+inventory-service
+Consumer:
+notification-service
+________________
+
+
+8. Redis Usage
+Product Cache
+Cache data produk.
+Key:
+products
+TTL:
+10 menit
+________________
+
+
+Product Detail Cache
+Key:
+product:{id}
+TTL:
+10 menit
+________________
+
+
+Dashboard Cache
+Key:
+dashboard_summary
+TTL:
+5 menit
+________________
+
+
+9. Microservice Architecture
+gateway-service
+
+
+product-service
+
+
+inventory-service
+
+
+production-service
+
+
+order-service
+
+
+payment-service
+
+
+notification-service
+________________
+
+
+10. Non Functional Requirements
+Performance
+* Response API < 500 ms
+* Dashboard < 2 detik
+________________
+
+
+Availability
+* Service harus dapat berjalan secara independen.
+* Kegagalan satu service tidak boleh menghentikan service lain.
+________________
+
+
+Scalability
+* Service dapat di-scale secara terpisah.
+* Kafka mampu menangani event secara asynchronous.
+________________
+
+
+Security
+* JWT Authentication
+* Role Based Access Control (RBAC)
+* Password Hashing dengan BCrypt
+________________
+
+
+11. Teknologi
+Layer
+	Teknologi
+	Frontend
+	Svelte
+	Backend
+	Spring Boot
+	Database
+	MySQL
+	Cache
+	Redis
+	Message Broker
+	Kafka
+	Authentication
+	JWT
+	API Gateway
+	Spring Cloud Gateway
+	Containerization
+	Docker
+	Orchestration (Future)
+	Kubernetes
+	________________
+
+
+12. Success Metrics
+Operasional
+* Akurasi stok mencapai 100%
+* Seluruh transaksi tercatat
+* Riwayat inventori dapat dilacak
+Teknis
+* Seluruh komunikasi event menggunakan Kafka berjalan sukses
+* Cache Redis mengurangi query database minimal 50%
+* Seluruh service dapat berjalan secara independen
+________________
+
+
+End of Document
+ Gula Management System v1.0
+ Product Requirements Document (PRD)

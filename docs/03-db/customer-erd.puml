@@ -1,0 +1,11 @@
+@startuml
+
+entity customer {
+    * id : UUID
+    --
+    name : varchar
+    email : varchar
+    address : text
+}
+
+@enduml

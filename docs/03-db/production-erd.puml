@@ -1,0 +1,12 @@
+@startuml
+
+entity production {
+    * id : UUID
+    --
+    product_id : UUID
+    quantity : int
+    production_date : date
+    notes : text
+}
+
+@enduml
