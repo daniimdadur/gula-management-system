@@ -10,3 +10,5 @@ CREATE TABLE if not exists product (
          status BOOLEAN DEFAULT TRUE,
          PRIMARY KEY (id)
 );
+
+alter table product rename to t_product;

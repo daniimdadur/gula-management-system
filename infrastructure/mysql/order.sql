@@ -22,3 +22,6 @@ CREATE TABLE if not exists order_item (
                             PRIMARY KEY (id),
                             CONSTRAINT fk_item_order FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
 );
+
+alter table orders rename to t_order;
+alter table order_item rename to t_order_item;

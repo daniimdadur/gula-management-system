@@ -20,3 +20,6 @@ CREATE TABLE if not exists inventory_transaction (
        PRIMARY KEY (id),
        CONSTRAINT fk_transaction_inventory FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE
 );
+
+alter table inventory rename to t_inventory;
+alter table inventory_transaction rename to t_inventory_transaction;

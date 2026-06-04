@@ -10,4 +10,6 @@ create table if not exists customer (
 
 alter table customer modify column id varchar(32) not null;
 
+alter table customer rename to t_customer;
+
 desc customer;

@@ -12,9 +12,13 @@ gula-management-system
 │
 ├── backend
 │   │
+│   ├── customer-service
+│   │
 │   ├── gateway-service
 │   │
 │   ├── product-service
+│   │
+│   ├── production-service
 │   │
 │   ├── inventory-service
 │   │

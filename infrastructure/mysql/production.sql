@@ -9,3 +9,5 @@ CREATE TABLE if not exists production (
         notes TEXT,
         PRIMARY KEY (id)
 );
+
+alter table production rename to t_production;

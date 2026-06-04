@@ -10,3 +10,5 @@ CREATE TABLE if not exists payment (
                          payment_date DATETIME, -- Diisi null dulu saat PENDING, diupdate saat SUCCESS
                          PRIMARY KEY (id)
 );
+
+alter table payment rename to t_payment;
