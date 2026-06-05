@@ -53,8 +53,7 @@ public class ProductController extends BaseController<ProductRes> {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Response> delete(@PathVariable String id) {
-        productService.delete(id);
-        return ResponseEntity.noContent().build();
+        return super.getResponse(productService.delete(id));
     }
 }
 

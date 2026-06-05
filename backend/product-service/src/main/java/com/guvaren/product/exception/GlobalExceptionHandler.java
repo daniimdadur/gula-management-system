@@ -1,8 +1,8 @@
 package com.guvaren.product.exception;
 
-import com.gentara.order.base.ResponseError;
-import com.guvaren.customer.exception.DuplicateException;
-import com.guvaren.customer.exception.NotFoundException;
+import com.guvaren.product.base.ResponseError;
+import com.guvaren.product.exception.DuplicateException;
+import com.guvaren.product.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
